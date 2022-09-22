@@ -1,4 +1,5 @@
 import argparse
+import json
 
 import os
 # limit the number of cpus used by high performance libraries
@@ -40,6 +41,12 @@ from strong_sort.strong_sort import StrongSORT
 logging.getLogger().removeHandler(logging.getLogger().handlers[0])
 
 import time
+
+from common.redis_connect import redis_connect
+from common.go import go
+import threading
+redis = redis_connect()
+go_obj = go(redis)
 
 @torch.no_grad()
 def run(
@@ -141,7 +148,7 @@ def run(
         )
         strongsort_list[i].model.warmup()
     outputs = [None] * nr_sources
-
+    go_thread = ""
     # Run tracking
     model.warmup(imgsz=(1 if pt else nr_sources, 3, *imgsz))  # warmup
     dt, seen = [0.0, 0.0, 0.0, 0.0], 0
@@ -241,14 +248,23 @@ def run(
                             label = None if hide_labels else (f'{id} {names[c]}' if hide_conf else \
                                 (f'{id} {conf:.2f}' if hide_class else f'{id} {names[c]} {conf:.2f}'))
                             box_label = annotator.box_label(bboxes, label, color=colors(c, True))
-                            box_label = get_common_data(box_label,names[c],screen_size)
+                            box_label = get_common_data(box_label,names[c],screen_size,id)
                             # print(box_label)
                             all_points.append(box_label)
 
                             if save_crop:
                                 txt_file_name = txt_file_name if (isinstance(path, list) and len(path) > 1) else ''
                                 save_one_box(bboxes, imc, file=save_dir / 'crops' / txt_file_name / names[c] / f'{id}' / f'{p.stem}.jpg', BGR=True)
-                    add_points(all_points)
+                    add_points(all_points,camera_device)
+                    redis_key = get_redis_key(camera_device)
+
+                    if (go_thread=="" or not(go_thread.is_alive())):
+                        print("线程不存在，run")
+                        go_thread = threading.Thread(target=go_obj.is_add_speed,args=(redis_key,))
+                        go_thread.start()
+                    else:
+                        print("线程已经存在，还未执行结束,跳过")
+                    # go_obj.is_add_speed(redis_key)
 
 
                 fps = 1/((t3-t2)+(t5-t4))
@@ -291,9 +307,10 @@ def run(
     if update:
         strip_optimizer(yolo_weights)  # update model (to fix SourceChangeWarning)
 
-def get_common_data(box_label,name,screenSize,camera_id=0):
+def get_common_data(box_label,name,screenSize,camera_id=0,track_id=0):
         point = box_label["point"]
         box_label["camera_id"] = camera_id
+        box_label["track_id"] = track_id
         box_label["name"] = name
         box_label["time"] = time.time()
         box_label["screenSize"] = screenSize
@@ -302,9 +319,24 @@ def get_common_data(box_label,name,screenSize,camera_id=0):
         box_label["center"] = [box_label["centerx"],box_label["centery"]]
         return box_label
 
-def add_points(all_points):
-    print("all_points:",all_points)
-    pass
+def get_redis_key (flag):
+    key = "navigation_points" if int(flag) ==0 else "vegetable_points"
+    return key
+
+def add_points(item_points,flag):
+        max_length = 60*3*20
+        # key = "navigation_points" if int(flag) ==0 else "vegetable_points"
+        key = get_redis_key(flag)
+        data = redis.get(key)
+        if(data):
+            data = json.loads(data)
+            if(len(data)>=max_length):
+                data = data[:max_length]
+            data.insert(0,item_points)
+        else:
+            data = [item_points]
+        redis.set(key,json.dumps(data))
+
 
 
 def parse_opt():
