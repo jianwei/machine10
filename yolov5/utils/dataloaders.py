@@ -310,7 +310,7 @@ class LoadWebcam:  # for inference
 
 class LoadStreams:
     # YOLOv5 streamloader, i.e. `python detect.py --source 'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP streams`
-    def __init__(self, sources='streams.txt', img_size=640, stride=32, auto=True, transforms=None):
+    def __init__(self, sources='streams.txt', img_size=640, stride=32, auto=True, transforms=None,camera_device=0):
         self.mode = 'stream'
         self.img_size = img_size
         self.stride = stride
@@ -335,10 +335,14 @@ class LoadStreams:
             if s == 0:
                 assert not is_colab(), '--source 0 webcam unsupported on Colab. Rerun command in a local environment.'
                 assert not is_kaggle(), '--source 0 webcam unsupported on Kaggle. Rerun command in a local environment.'
-            cap = cv2.VideoCapture(s)
+            # print("s---------------------------------",s,camera_device,type(s),type(camera_device))
+            # cap = cv2.VideoCapture(s)
+
+            cap = cv2.VideoCapture(camera_device)
             assert cap.isOpened(), f'{st}Failed to open {s}'
             w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
             h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+            self.screen_size = [w,h]
             fps = cap.get(cv2.CAP_PROP_FPS)  # warning: may return 0 or nan
             self.frames[i] = max(int(cap.get(cv2.CAP_PROP_FRAME_COUNT)), 0) or float('inf')  # infinite stream fallback
             self.fps[i] = max((fps if math.isfinite(fps) else 0) % 100, 0) or 30  # 30 FPS fallback
@@ -356,6 +360,9 @@ class LoadStreams:
         self.transforms = transforms  # optional
         if not self.rect:
             LOGGER.warning('WARNING: Stream shapes differ. For optimal performance supply similarly-shaped streams.')
+
+    def get_screen_size(self):
+        return self.screen_size
 
     def update(self, i, cap, stream):
         # Read stream `i` frames in daemon thread

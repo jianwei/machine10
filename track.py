@@ -39,6 +39,8 @@ from strong_sort.strong_sort import StrongSORT
 # remove duplicated stream handler to avoid duplicated logging
 logging.getLogger().removeHandler(logging.getLogger().handlers[0])
 
+import time
+
 @torch.no_grad()
 def run(
         source='0',
@@ -71,6 +73,7 @@ def run(
         half=False,  # use FP16 half-precision inference
         dnn=False,  # use OpenCV DNN for ONNX inference
         eval=False,  # run multi-gpu eval
+        camera_device=0,  # use OpenCV DNN for ONNX inference
 ):
 
     source = str(source)
@@ -102,11 +105,13 @@ def run(
     imgsz = check_img_size(imgsz, s=stride)  # check image size
 
     # Dataloader
+    screen_size = [640,480]
     if webcam:
         show_vid = check_imshow()
         cudnn.benchmark = True  # set True to speed up constant image size inference
-        dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt)
+        dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt,camera_device=int(camera_device))
         nr_sources = len(dataset)
+        screen_size = dataset.get_screen_size()
     else:
         dataset = LoadImages(source, img_size=imgsz, stride=stride, auto=pt)
         nr_sources = 1
@@ -211,6 +216,7 @@ def run(
                 dt[3] += t5 - t4
 
                 # draw boxes for visualization
+                all_points = []
                 if len(outputs[i]) > 0:
                     for j, (output, conf) in enumerate(zip(outputs[i], confs)):
     
@@ -234,12 +240,19 @@ def run(
                             id = int(id)  # integer id
                             label = None if hide_labels else (f'{id} {names[c]}' if hide_conf else \
                                 (f'{id} {conf:.2f}' if hide_class else f'{id} {names[c]} {conf:.2f}'))
-                            annotator.box_label(bboxes, label, color=colors(c, True))
+                            box_label = annotator.box_label(bboxes, label, color=colors(c, True))
+                            box_label = get_common_data(box_label,names[c],screen_size)
+                            # print(box_label)
+                            all_points.append(box_label)
+
                             if save_crop:
                                 txt_file_name = txt_file_name if (isinstance(path, list) and len(path) > 1) else ''
                                 save_one_box(bboxes, imc, file=save_dir / 'crops' / txt_file_name / names[c] / f'{id}' / f'{p.stem}.jpg', BGR=True)
+                    add_points(all_points)
 
-                LOGGER.info(f'{s}Done. YOLO:({t3 - t2:.3f}s), StrongSORT:({t5 - t4:.3f}s)')
+
+                fps = 1/((t3-t2)+(t5-t4))
+                LOGGER.info(f'{s}Done. YOLO:({t3 - t2:.3f}s), StrongSORT:({t5 - t4:.3f}s),fps:{fps}')
 
             else:
                 strongsort_list[i].increment_ages()
@@ -278,6 +291,21 @@ def run(
     if update:
         strip_optimizer(yolo_weights)  # update model (to fix SourceChangeWarning)
 
+def get_common_data(box_label,name,screenSize,camera_id=0):
+        point = box_label["point"]
+        box_label["camera_id"] = camera_id
+        box_label["name"] = name
+        box_label["time"] = time.time()
+        box_label["screenSize"] = screenSize
+        box_label["centerx"] = (point[0][0] + point[1][0])/2
+        box_label["centery"] = (point[0][1] + point[2][1])/2
+        box_label["center"] = [box_label["centerx"],box_label["centery"]]
+        return box_label
+
+def add_points(all_points):
+    print("all_points:",all_points)
+    pass
+
 
 def parse_opt():
     parser = argparse.ArgumentParser()
@@ -312,6 +340,7 @@ def parse_opt():
     parser.add_argument('--half', action='store_true', help='use FP16 half-precision inference')
     parser.add_argument('--dnn', action='store_true', help='use OpenCV DNN for ONNX inference')
     parser.add_argument('--eval', action='store_true', help='run evaluation')
+    parser.add_argument('--camera_device',default=0, type=str, help='camera_device camera number')
     opt = parser.parse_args()
     opt.imgsz *= 2 if len(opt.imgsz) == 1 else 1  # expand
     print_args(vars(opt))

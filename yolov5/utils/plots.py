@@ -98,6 +98,8 @@ class Annotator:
                 self.draw.text((box[0], box[1] - h if outside else box[1]), label, fill=txt_color, font=self.font)
         else:  # cv2
             p1, p2 = (int(box[0]), int(box[1])), (int(box[2]), int(box[3]))
+             # print("左上点的坐标为：(" + str(p1[0]) + "," + str(p1[1]) + ")，右下点的坐标为(" + str(p2[0]) + "," + str(p2[1]) + ")")
+            self.box_label_points = [(p1[0],p1[1]),(p2[0],p1[1]),(p1[0],p2[1]),(p2[0],p2[1])]
             cv2.rectangle(self.im, p1, p2, color, thickness=self.lw, lineType=cv2.LINE_AA)
             if label:
                 tf = max(self.lw - 1, 1)  # font thickness
@@ -112,6 +114,11 @@ class Annotator:
                             txt_color,
                             thickness=tf,
                             lineType=cv2.LINE_AA)
+            return {"point":self.box_label_points}
+            # return self.box_label_points
+    
+    def get_box_label (self):
+        return self.box_label_points
 
     def rectangle(self, xy, fill=None, outline=None, width=1):
         # Add rectangle to image (PIL-only)
