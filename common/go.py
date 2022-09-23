@@ -11,7 +11,7 @@ class go ():
         self.default_machine_speed = 15
         self.current_machine_speed = 15
         self.increment = 10        # 速度增量
-        self.min_unit_px = 100  # 每秒行驶多少像素
+        self.min_unit_px = 20  # 每秒行驶多少像素
 
     def send_comand(self, cmd):
         ret = ""
@@ -32,6 +32,9 @@ class go ():
     
     def stop(self):
         self.send_comand("STOP 0")
+    
+    def set_default_speed(self):
+        self.send_comand("MF "+str(self.default_machine_speed))
 
     def is_add_speed(self, redis_key):
         print("redis_key",redis_key)

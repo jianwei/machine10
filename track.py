@@ -272,7 +272,8 @@ def run(
 
             else:
                 strongsort_list[i].increment_ages()
-                LOGGER.info('No detections')
+                LOGGER.info('No detections,set defalut speed')
+                go_obj.set_default_speed()
 
             # Stream results
             im0 = annotator.result()
