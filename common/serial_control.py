@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import re
-from operator import le
+# from operator import le
 import serial
 import time
 import termios

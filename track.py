@@ -385,5 +385,11 @@ def main(opt):
 
 
 if __name__ == "__main__":
-    opt = parse_opt()
-    main(opt)
+    # opt = parse_opt()
+    # main(opt)
+    try:
+        opt = parse_opt()
+        main(opt)
+    except KeyboardInterrupt:
+        print("ctrl+c stop")
+        go_obj.stop()

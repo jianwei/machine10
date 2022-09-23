@@ -29,6 +29,9 @@ class go ():
         else:
             print("cmd null")
         return ret
+    
+    def stop(self):
+        self.send_comand("STOP 0")
 
     def is_add_speed(self, redis_key):
         print("redis_key",redis_key)
