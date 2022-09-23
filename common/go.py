@@ -65,7 +65,7 @@ class go ():
                 diff_px = abs(second_data.get("centery")-first_data.get("centery"))
                 diff_time = abs(second_data.get("time")-first_data.get("time"))
                 print("-------------------------------------------------------------------------------------------------------")
-                print(time1,time2,difftime,diff_px,diff_time,diff_px/diff_time)
+                print(difftime,diff_px,diff_px/diff_time)
                 print("-------------------------------------------------------------------------------------------------------")
                 if (abs(diff_px/diff_time) < self.min_unit_px):
                     self.current_machine_speed += self.increment
