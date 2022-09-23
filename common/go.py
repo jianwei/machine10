@@ -10,7 +10,7 @@ class go ():
         self.redis = redis
         self.default_machine_speed = 5
         self.current_machine_speed = 5
-        self.increment = 2     # 速度增量
+        self.increment = 1     # 速度增量
         self.min_unit_px = 5  # 每秒行驶多少像素
         self.last_check_time = float(time.time())
 
@@ -66,9 +66,9 @@ class go ():
                 diff_px = abs(second_data.get("centery")-first_data.get("centery"))
                 diff_time = abs(second_data.get("time")-first_data.get("time"))
                 now = float(time.time())
-                # last_diff_time  = now - self.last_check_time
+                last_diff_time  = now - self.last_check_time
                 print("-------------------------------------------------------------------------------------------------------")
-                print("difftime:{},diff_px:{},diff_px/diff_time:{}".format(difftime,diff_px,diff_px/diff_time))
+                print("last_diff_time:{},difftime:{},diff_px:{},diff_px/diff_time:{}".format(last_diff_time,difftime,diff_px,diff_px/diff_time))
                 print("-------------------------------------------------------------------------------------------------------")
                 if (float(time.time()) - self.last_check_time >1) :
                     self.last_check_time  = now 
@@ -76,8 +76,8 @@ class go ():
                         self.current_machine_speed += self.increment
                         self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=40 else 40
                         self.send_comand("MF "+str(self.current_machine_speed))
-                    # else:
-                    #     self.current_machine_speed = self.default_machine_speed
-                    #     self.send_comand("MF "+str(self.default_machine_speed))
+                    else:
+                        self.current_machine_speed = self.default_machine_speed
+                        self.send_comand("MF "+str(self.default_machine_speed))
                 else:
                     print("1秒内，不做处理")
