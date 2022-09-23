@@ -6,7 +6,7 @@ import uuid
 
 class go ():
     def __init__(self, redis):
-        self.ser = serial_control()
+        # self.ser = serial_control()
         self.redis = redis
         self.default_machine_speed = 13
         self.current_machine_speed = 13
@@ -24,9 +24,9 @@ class go ():
                 "from": "camera",
             }
             print(cmd)
-            # self.ser = serial_control()
+            self.ser = serial_control()
             ret = self.ser.send_cmd(cmd_dict)
-            # self.ser.close()
+            self.ser.close()
         else:
             print("cmd null")
         return ret
