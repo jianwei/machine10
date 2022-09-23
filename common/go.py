@@ -68,7 +68,7 @@ class go ():
                 now = float(time.time())
                 last_diff_time  = now - self.last_check_time
                 print("-------------------------------------------------------------------------------------------------------")
-                print("last_diff_time:{},difftime:{},diff_px:{}".format(last_diff_time,difftime,diff_px))
+                print("last_diff_time:{},difftime:{},diff_px:{},diff_px/diff_time:{}".format(last_diff_time,difftime,diff_px,diff_px/diff_time))
                 print("-------------------------------------------------------------------------------------------------------")
                 if (float(time.time()) - self.last_check_time >1) :
                     self.last_check_time  = now 
