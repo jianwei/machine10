@@ -11,7 +11,7 @@ class go ():
         self.default_machine_speed = 15
         self.current_machine_speed = 15
         self.increment = 10        # 速度增量
-        pass
+        self.min_unit_px = 100  # 每秒行驶多少像素
 
     def send_comand(self, cmd):
         ret = ""
@@ -56,10 +56,15 @@ class go ():
             if (not index_list[0] == -1) and (not index_list[1] == -1):
                 first_data = first[index_list[0]]
                 second_data = second[index_list[1]]
+                time1= first_data.get("time")
+                time2= second_data.get("time")
+                difftime  = time2-time1
+                diff_px = abs(second_data.get("centery")-first_data.get("centery"))
+                diff_time = abs(second_data.get("time")-first_data.get("time"))
                 print("-------------------------------------------------------------------------------------------------------")
-                print(first_data.get("centery"),second_data.get("centery"),second_data.get("centery")-first_data.get("centery"))
+                print(time1,time2,difftime,diff_px,diff_time,diff_px/diff_time)
                 print("-------------------------------------------------------------------------------------------------------")
-                if (second_data.get("centery")-first_data.get("centery") < 10):
+                if (abs(diff_px/diff_time) < self.min_unit_px):
                     self.current_machine_speed += self.increment
                     self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=100 else 100
                     self.send_comand("MF "+str(self.current_machine_speed))
