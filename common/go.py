@@ -8,8 +8,8 @@ class go ():
     def __init__(self, redis):
         self.ser = serial_control()
         self.redis = redis
-        self.default_machine_speed = 10
-        self.current_machine_speed = 10
+        self.default_machine_speed = 13
+        self.current_machine_speed = 13
         self.increment = 1     # 速度增量
         self.min_unit_px = 5  # 每秒行驶多少像素
         self.last_check_time = float(time.time())
