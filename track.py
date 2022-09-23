@@ -259,7 +259,7 @@ def run(
                     redis_key = get_redis_key(camera_device)
 
 
-                    if (go_thread.is_alive()):
+                    if (go_thread!="" and go_thread.is_alive()):
                         print("线程已经存在，还未执行结束,跳过")
                     else:
                         print("线程不存在，run")
