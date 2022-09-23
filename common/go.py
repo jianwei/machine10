@@ -11,7 +11,8 @@ class go ():
         self.default_machine_speed = 15
         self.current_machine_speed = 15
         self.increment = 10        # 速度增量
-        self.min_unit_px = 20  # 每秒行驶多少像素
+        self.min_unit_px = 5  # 每秒行驶多少像素
+        self.last_check_time = float(time.time())
 
     def send_comand(self, cmd):
         ret = ""
@@ -37,9 +38,9 @@ class go ():
         self.send_comand("MF "+str(self.default_machine_speed))
 
     def is_add_speed(self, redis_key):
-        print("redis_key",redis_key)
+        # print("redis_key",redis_key)
         data = self.redis.get(redis_key)
-        if (data):
+        if (data and len(data)>=2):
             data = json.loads(data)
             first = data[0]
             second = data[1]
@@ -64,14 +65,20 @@ class go ():
                 difftime  = time2-time1
                 diff_px = abs(second_data.get("centery")-first_data.get("centery"))
                 diff_time = abs(second_data.get("time")-first_data.get("time"))
+                now = float(time.time())
+                last_diff_time  = now - self.last_check_time
                 print("-------------------------------------------------------------------------------------------------------")
-                print(difftime,diff_px,diff_px/diff_time)
+                # print(last_diff_time,difftime,diff_px,diff_px/diff_time)
+                print("last_diff_time:{},difftime:{},diff_px:{}".format(last_diff_time,difftime,diff_px))
                 print("-------------------------------------------------------------------------------------------------------")
-                if (abs(diff_px/diff_time) < self.min_unit_px):
-                    self.current_machine_speed += self.increment
-                    self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=100 else 100
-                    self.send_comand("MF "+str(self.current_machine_speed))
+                if (float(time.time()) - self.last_check_time >1) :
+                    self.last_check_time  = now 
+                    if (abs(diff_px/diff_time) < self.min_unit_px):
+                        self.current_machine_speed += self.increment
+                        self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=100 else 100
+                        self.send_comand("MF "+str(self.current_machine_speed))
+                    # else:
+                        # self.current_machine_speed = self.default_machine_speed
+                        # self.send_comand("MF "+str(self.default_machine_speed))
                 else:
-                    self.current_machine_speed = self.default_machine_speed
-                    self.send_comand("MF "+str(self.default_machine_speed))
-                pass
+                    print("1秒内，不做处理")
