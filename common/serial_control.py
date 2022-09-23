@@ -46,9 +46,9 @@ class serial_control():
         uuid = message["uuid"]
         # print("cmd:",cmd)
         if (cmd):
-            self.logger.info("cmd:%s,begin_time:%s", cmd, time.time())
+            # self.logger.info("cmd:%s,begin_time:%s", cmd, time.time())
             self.ser.write(cmd.encode())
-            self.logger.info("cmd:end write:%s", time.time())
+            # self.logger.info("cmd:end write:%s", time.time())
             try:
                 cnt = 1
                 ret_all = ""
@@ -78,8 +78,7 @@ class serial_control():
 
                             }
                             self.ret_dict = ret_dict
-                            self.logger.info(
-                                "break,cmd:%s,end_time:%s,ret_all:%s,", cmd, time.time(), ret_all)
+                            self.logger.info("break,cmd:%s,end_time:%s,ret_all:%s,", cmd, time.time(), ret_all)
                             return ret
                         time3 = time.time()
                         if (time3-time0 >= 10):
