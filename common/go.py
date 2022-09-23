@@ -56,10 +56,10 @@ class go ():
             if (not index_list[0] == -1) and (not index_list[1] == -1):
                 first_data = first[index_list[0]]
                 second_data = second[index_list[1]]
-                # print(first_data.get("centery"),second_data.get("centery"),second_data.get("centery")-first_data.get("centery"))
+                print(first_data.get("centery"),second_data.get("centery"),second_data.get("centery")-first_data.get("centery"))
                 if (second_data.get("centery")-first_data.get("centery") < 10):
                     self.current_machine_speed += self.increment
-                    self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=150 else 150
+                    self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=100 else 100
                     self.send_comand("MF "+str(self.current_machine_speed))
                 else:
                     self.current_machine_speed = self.default_machine_speed
