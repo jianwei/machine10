@@ -70,14 +70,14 @@ class go ():
                 print("-------------------------------------------------------------------------------------------------------")
                 print("last_diff_time:{},difftime:{},diff_px:{},diff_px/diff_time:{}".format(last_diff_time,difftime,diff_px,diff_px/diff_time))
                 print("-------------------------------------------------------------------------------------------------------")
-                if (float(time.time()) - self.last_check_time >1) :
-                    self.last_check_time  = now 
-                    if (abs(diff_px/diff_time) < self.min_unit_px):
-                        self.current_machine_speed += self.increment
-                        self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=40 else 40
-                        self.send_comand("MF "+str(self.current_machine_speed))
-                    else:
-                        self.current_machine_speed = self.default_machine_speed
-                        self.send_comand("MF "+str(self.default_machine_speed))
+                # if (float(time.time()) - self.last_check_time >1) :
+                self.last_check_time  = now 
+                if (abs(diff_px/diff_time) < self.min_unit_px):
+                    self.current_machine_speed += self.increment
+                    self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=40 else 40
+                    self.send_comand("MF "+str(self.current_machine_speed))
                 else:
-                    print("1秒内，不做处理")
+                    self.current_machine_speed = self.default_machine_speed
+                    self.send_comand("MF "+str(self.default_machine_speed))
+                # else:
+                #     print("1秒内，不做处理")
