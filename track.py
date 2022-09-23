@@ -258,14 +258,13 @@ def run(
                     add_points(all_points,camera_device)
                     redis_key = get_redis_key(camera_device)
 
-                    if (go_thread=="" or not(go_thread.is_alive())):
+
+                    if (go_thread.is_alive()):
+                        print("线程已经存在，还未执行结束,跳过")
+                    else:
                         print("线程不存在，run")
                         go_thread = threading.Thread(target=go_obj.is_add_speed,args=(redis_key,))
                         go_thread.start()
-                    else:
-                        print("线程已经存在，还未执行结束,跳过")
-                    # go_obj.is_add_speed(redis_key)
-
 
                 fps = 1/((t3-t2)+(t5-t4))
                 LOGGER.info(f'{s}Done. YOLO:({t3 - t2:.3f}s), StrongSORT:({t5 - t4:.3f}s),fps:{fps}')
