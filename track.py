@@ -82,7 +82,7 @@ def run(
         eval=False,  # run multi-gpu eval
         camera_device=0,  # use OpenCV DNN for ONNX inference
 ):
-
+    camera_device = int(camera_device)
     source = str(source)
     save_img = not nosave and not source.endswith('.txt')  # save inference images
     is_file = Path(source).suffix[1:] in (VID_FORMATS)
@@ -116,7 +116,7 @@ def run(
     if webcam:
         show_vid = check_imshow()
         cudnn.benchmark = True  # set True to speed up constant image size inference
-        dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt,camera_device=int(camera_device))
+        dataset = LoadStreams(source, img_size=imgsz, stride=stride, auto=pt,camera_device=camera_device)
         nr_sources = len(dataset)
         screen_size = dataset.get_screen_size()
     else:
@@ -320,7 +320,7 @@ def get_common_data(box_label,name,screenSize,camera_id=0,track_id=0):
         return box_label
 
 def get_redis_key (flag):
-    key = "navigation_points" if int(flag) ==0 else "vegetable_points"
+    key = "navigation_points" if int(flag) == 0 else "vegetable_points"
     return key
 
 def add_points(item_points,flag):
