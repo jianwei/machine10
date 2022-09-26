@@ -275,7 +275,7 @@ def run(
                             go_turn_thread = threading.Thread(target=go_speed.is_add_speed,args=(redis_key,))
                             go_turn_thread.start()
                     elif (camera_device==2):
-                        print("work----")
+                        print("---------------------------------------------------------------work-------------------------------------------------------------------")
 
 
                 fps = 1/((t3-t2)+(t5-t4))
