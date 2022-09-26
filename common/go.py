@@ -100,6 +100,10 @@ class go ():
 
 
     def turn(self,redis_key):
+        now = float(time.time())
+        if(now-self.last_turn_time<1):
+            print("1秒内不重复转向")
+            return
         data = self.redis.get(redis_key)
         if (data and len(data)>=2):
             data = json.loads(data)
@@ -143,7 +147,7 @@ class go ():
             # print("target_angle,global_angle5",target_angle,global_angle)
             if (target_angle != global_angle):
                 cmd = cmd_prefix + " " + str(abs(target_angle-global_angle))
-                global_angle = target_angle
+                self.global_angle = target_angle
                 print("send-cmd:", cmd)
                 self.send_comand(cmd)
             else:
