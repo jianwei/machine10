@@ -78,7 +78,7 @@ class go ():
                     self.last_check_time  = now 
                     if (abs(diff_px/diff_time) < self.min_unit_px):
                         self.current_machine_speed += self.increment
-                        self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=40 else 40
+                        self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=25 else 25
                         self.send_comand("MF "+str(self.current_machine_speed))
                     else:
                         self.current_machine_speed = self.default_machine_speed
