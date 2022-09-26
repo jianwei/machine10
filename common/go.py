@@ -7,7 +7,7 @@ from common.unix_socket import unix_socket
 class go ():
     def __init__(self, redis):
         # self.ser = serial_control()
-        self.unix_socket = unix_socket()
+        
         self.redis = redis
         self.default_machine_speed = 5
         self.current_machine_speed = 5
@@ -20,9 +20,11 @@ class go ():
 
     def send_comand(self, cmd):
         ret = ""
+        
         if (cmd != ""):
             cmd += "."
             print("cmd {}".format(cmd))
+            self.unix_socket = unix_socket()
             self.unix_socket.send_message(cmd)
             # cmd_dict = {
             #     "uuid": str(uuid.uuid1()),

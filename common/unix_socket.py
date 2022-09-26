@@ -2,6 +2,7 @@
 import os
 import socket
 import sys
+import time
 from common.serial_control import serial_control
 
 # serverAddr = '../uds_socket'  # 套接字存放路径及名称
@@ -32,12 +33,12 @@ class unix_socket():
             try:
                 while True:
                     message = conn.recv(100)
-                    
+                    print("time11:",time.time())
                     if message:
-                        message = str(message)
+                        message = str(message, 'UTF-8')
                         print(sys.stderr, 'received "%s"' % message)
                         ret  = self.ser.send_cmd(message)
-                        ret  = 0
+                        ret  = "0"
                         ret = bytes(ret,encoding='UTF-8')
                         conn.sendall(ret)
                     else:
@@ -61,11 +62,11 @@ class unix_socket():
         reasult = ""
         print("send_message:",message)
         if(message):
-            # ret  = self.ser.send_cmd(message)
             message = bytes(message,encoding='UTF-8')
             sock.sendall(message)
             # reasult = sock.recv(1)
             # print(sys.stderr, 'received "%s"' % reasult)
+        sock.close()
         return reasult
            
         

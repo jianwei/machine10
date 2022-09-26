@@ -11,7 +11,8 @@ from common.log import log
 
 class serial_control():
     def __init__(self):
-        port = "/dev/ttyACM0"  # Arduino端口
+        # port = "/dev/ttyACM0"  # Arduino端口
+        port = "/dev/tty.usbmodem1421301"  # Arduino端口
         # self.l = log(logfile="./serial_control.log")
         # self.l = log("~/serial_control.log")
         # self.logger = self.l.getLogger()
