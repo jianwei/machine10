@@ -2,11 +2,12 @@ from common.serial_control import serial_control
 import json
 import time
 import uuid
-
+from common.unix_socket import unix_socket
 
 class go ():
     def __init__(self, redis):
         # self.ser = serial_control()
+        self.unix_socket = unix_socket()
         self.redis = redis
         self.default_machine_speed = 5
         self.current_machine_speed = 5
@@ -15,19 +16,22 @@ class go ():
         self.last_check_time = float(time.time())
         self.last_turn_time = float(time.time())
 
+        # self.server_address = './socket/uds_socket'
+
     def send_comand(self, cmd):
         ret = ""
         if (cmd != ""):
             cmd += "."
-            cmd_dict = {
-                "uuid": str(uuid.uuid1()),
-                "cmd": cmd,
-                "from": "camera",
-            }
-            print(cmd)
-            self.ser = serial_control()
-            ret = self.ser.send_cmd(cmd_dict)
-            self.ser.close()
+            unix_socket.send_message(cmd)
+            # cmd_dict = {
+            #     "uuid": str(uuid.uuid1()),
+            #     "cmd": cmd,
+            #     "from": "camera",
+            # }
+            # print(cmd)
+            # self.ser = serial_control()
+            # ret = self.ser.send_cmd(cmd_dict)
+            # self.ser.close()
         else:
             print("cmd null")
         return ret
