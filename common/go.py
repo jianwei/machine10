@@ -13,6 +13,7 @@ class go ():
         self.increment = 1     # 速度增量
         self.min_unit_px = 5  # 每秒行驶多少像素
         self.last_check_time = float(time.time())
+        self.last_turn_time = float(time.time())
 
     def send_comand(self, cmd):
         ret = ""
@@ -36,6 +37,9 @@ class go ():
     
     def set_default_speed(self):
         self.send_comand("MF "+str(self.default_machine_speed))
+
+    def turn(self):
+        pass
 
     def is_add_speed(self, redis_key):
         # print("redis_key",redis_key)

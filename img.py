@@ -25,21 +25,25 @@ def handl_Canny(pic_path='img/1.jpg'):
 
 
     # 指数变换
-    gamma_img = 10 * np.power(img, 0.3)
-    # 截断，把大于255的像素值变为255
-    gamma_img[gamma_img>255] = 255    
-    # 像素值变为整数
-    gamma_img = np.asarray(gamma_img, np.uint8) 
+    # gamma_img = 10 * np.power(img, 0.3)
+    # # 截断，把大于255的像素值变为255
+    # gamma_img[gamma_img>255] = 255    
+    # # 像素值变为整数
+    # gamma_img = np.asarray(gamma_img, np.uint8) 
 
-    cv2.imshow('gamma_image', gamma_img)
+    # cv2.imshow('gamma_image', gamma_img)
 
     # # 线性变换
-    # linear_img = img - 150
-    # linear_img.max()    # 最大值364.0
-    # # 截断，把大于255的像素值变为255
-    # linear_img[linear_img>255] = 255
-    # linear_img = np.asarray(linear_img, np.uint8) # 像素值变为整数
-    # cv2.imshow('linear image', linear_img)
+    linear_img = img - 150
+    linear_img.max()    # 最大值364.0
+    # 截断，把大于255的像素值变为255
+    linear_img[linear_img>255] = 255
+    linear_img = np.asarray(linear_img, np.uint8) # 像素值变为整数
+    cv2.imshow('linear image', linear_img)
+    
+    img_cat_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    cv2.imshow("hsv", img_cat_hsv)
+
 
 
 
@@ -66,14 +70,16 @@ def handl_Canny(pic_path='img/1.jpg'):
 
 
 
-    cv2.waitKey(10000)
+    key = cv2.waitKey(0)
+    if(ord(key)=="q" ):
+        exit()
+    cv2.destroyAllWindows()
 
 #销毁所有的窗口
 cv2.destroyAllWindows()
 if __name__ == '__main__':
     # print('PyCharm')
-    handl_Canny()
-    # while(True):
-    #     if cv2.waitKey(20) & 0xFF ==ord("q"):
-    #         cv2.destroyAllWindows()
-    #     break
+    handl_Canny("img/1.jpg")
+    # handl_Canny("img/2.jpg")
+    # handl_Canny("img/3.jpg")
+    

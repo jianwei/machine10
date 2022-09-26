@@ -46,7 +46,8 @@ from common.redis_connect import redis_connect
 from common.go import go
 import threading
 redis = redis_connect()
-go_obj = go(redis)
+go_speed = go(redis)
+go_turn = go(redis)
 
 @torch.no_grad()
 def run(
@@ -148,7 +149,8 @@ def run(
         )
         strongsort_list[i].model.warmup()
     outputs = [None] * nr_sources
-    go_thread = ""
+    go_speed_thread = ""
+    go_turn_thread = ""
     # Run tracking
     model.warmup(imgsz=(1 if pt else nr_sources, 3, *imgsz))  # warmup
     dt, seen = [0.0, 0.0, 0.0, 0.0], 0
@@ -258,13 +260,23 @@ def run(
                     add_points(all_points,camera_device)
                     redis_key = get_redis_key(camera_device)
 
+                    if (camera_device==0):
+                        if (go_speed_thread!="" and go_speed_thread.is_alive()):
+                            print("加速线程已经存在，还未执行结束,跳过")
+                        else:
+                            print("加速线程不存在，run")
+                            go_speed_thread = threading.Thread(target=go_speed.is_add_speed,args=(redis_key,))
+                            go_speed_thread.start()
 
-                    if (go_thread!="" and go_thread.is_alive()):
-                        print("线程已经存在，还未执行结束,跳过")
-                    else:
-                        print("线程不存在，run")
-                        go_thread = threading.Thread(target=go_obj.is_add_speed,args=(redis_key,))
-                        go_thread.start()
+                        if (go_turn_thread!="" and go_turn_thread.is_alive()):
+                            print("加速线程已经存在，还未执行结束,跳过")
+                        else:
+                            print("加速线程不存在，run")
+                            go_turn_thread = threading.Thread(target=go_speed.is_add_speed,args=(redis_key,))
+                            go_turn_thread.start()
+                    elif (camera_device==2):
+                        print("work----")
+
 
                 fps = 1/((t3-t2)+(t5-t4))
                 LOGGER.info(f'{s}Done. YOLO:({t3 - t2:.3f}s), StrongSORT:({t5 - t4:.3f}s),fps:{fps}')
@@ -272,7 +284,7 @@ def run(
             else:
                 strongsort_list[i].increment_ages()
                 LOGGER.info('No detections,set defalut speed')
-                go_obj.set_default_speed()
+                go_speed.set_default_speed()
 
             # Stream results
             im0 = annotator.result()
