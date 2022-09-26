@@ -12,9 +12,9 @@ from common.log import log
 class serial_control():
     def __init__(self):
         port = "/dev/ttyACM0"  # Arduino端口
-        self.l = log(logfile="./serial_control.log")
+        # self.l = log(logfile="./serial_control.log")
         # self.l = log("~/serial_control.log")
-        self.logger = self.l.getLogger()
+        # self.logger = self.l.getLogger()
         self.timeout = 0.005
 
         f = open(port)
@@ -42,7 +42,7 @@ class serial_control():
             cmd = message["cmd"]
         else:
             cmd = None
-            self.logger.info("Lost message:%s", message)
+            # self.logger.info("Lost message:%s", message)
         uuid = message["uuid"]
         # print("cmd:",cmd)
         if (cmd):
@@ -70,7 +70,7 @@ class serial_control():
                         s1 = re.compile('^(-?[1-9]|0{1}\d*)$')
                         r1 = s1.findall(ret)
                         if (len(r1) > 0):
-                            self.logger.info("send_cmd:uuid:%s,cmd:%s,ret:%s,difftime:%s,response:%s", uuid, cmd, ret, diff, ret_all)
+                            print("send_cmd:uuid:{},cmd:{},ret:{},difftime:{},response:{}".format(uuid, cmd, ret, diff, ret_all))
                             ret_dict = {
                                 "uuid": uuid,
                                 "cmd": cmd,
@@ -78,14 +78,14 @@ class serial_control():
 
                             }
                             self.ret_dict = ret_dict
-                            self.logger.info("break,cmd:%s,end_time:%s,ret_all:%s,", cmd, time.time(), ret_all)
+                            print("break,cmd:{},end_time:{},ret_all:{}".format(cmd, time.time(), ret_all))
                             return ret
                         time3 = time.time()
                         if (time3-time0 >= 10):
-                            self.logger.info("break,time out")
+                            print("break,time out")
                             break
             except Exception as e:
-                self.l.logError("serial连接或者执行失败,reason:", e)
+                print("serial连接或者执行失败,reason:", e)
 
     def get_ret(self):
         # print("ret_dict:",self.ret_dict)
