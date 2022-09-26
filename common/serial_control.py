@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
 
+import json
 import re
 # from operator import le
 import serial
@@ -39,6 +40,7 @@ class serial_control():
         ret = -2
         # print("---------------------------------------------------------------------------------------------")
         # print("message:",message)
+        message = json.loads(message)
         if ("cmd" in message.keys()):
             cmd = message["cmd"]
         else:

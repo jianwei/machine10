@@ -33,7 +33,7 @@ class unix_socket():
             try:
                 while True:
                     message = conn.recv(100)
-                    print("time11:",time.time())
+                    # print("time11:",time.time())
                     if message:
                         message = str(message, 'UTF-8')
                         print(sys.stderr, 'received "%s"' % message)
