@@ -65,7 +65,7 @@ class serial_control():
                         response_arr = ret_all.splitlines()
                         ret = response_arr[len(
                             response_arr)-1] if len(response_arr) > 0 else ""
-                        self.logger.info("1--cnt:%s,send_cmd:uuid:%s,cmd:%s,ret:%s,difftime:%s,response:%s", cnt, uuid, cmd, ret, diff, ret_all)
+                        # self.logger.info("1--cnt:%s,send_cmd:uuid:%s,cmd:%s,ret:%s,difftime:%s,response:%s", cnt, uuid, cmd, ret, diff, ret_all)
                         # time.sleep(0.1)
                         s1 = re.compile('^(-?[1-9]|0{1}\d*)$')
                         r1 = s1.findall(ret)
