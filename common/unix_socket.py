@@ -32,7 +32,9 @@ class unix_socket():
             try:
                 while True:
                     message = conn.recv(100)
+                    
                     if message:
+                        message = str(message)
                         print(sys.stderr, 'received "%s"' % message)
                         ret  = self.ser.send_cmd(message)
                         ret  = 0
