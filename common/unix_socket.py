@@ -28,6 +28,7 @@ class unix_socket():
             print(sys.stderr, 'socket.listen error')
 
         while True:
+            print("--------------------------------------------begin-------------------------------------------------------")
             print(sys.stderr, 'waiting for connecting')
             conn, clientAddr = sock.accept()  
             try:
@@ -47,6 +48,7 @@ class unix_socket():
                         # ret  = "0"
                         # ret = bytes(ret,encoding='UTF-8')
                         # conn.sendall(ret)
+                        print("--------------------------------------------end-------------------------------------------------------")
                     else:
                         break
             except Exception as e:

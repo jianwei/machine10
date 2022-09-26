@@ -33,19 +33,12 @@ class serial_control():
     def close(self):
         self.ser.close()
 
-    # {"uuid": "0ddbb5f8-1b68-11ed-af17-57a903635f20", "cmd": "RST ."}'
-    # begin_time:1661395309.6998177
-    # 1661395409.5343091
     def send_cmd(self, message):
         ret = -2
-        # print("---------------------------------------------------------------------------------------------")
-        # print("message:",message)
-        # message = json.loads(message)
         if ("cmd" in message.keys()):
             cmd = message["cmd"]
         else:
             cmd = None
-            # self.logger.info("Lost message:%s", message)
         uuid = message["uuid"]
         # print("cmd:",cmd)
         if (cmd):
