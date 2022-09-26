@@ -40,7 +40,7 @@ class serial_control():
         ret = -2
         # print("---------------------------------------------------------------------------------------------")
         # print("message:",message)
-        message = json.loads(message)
+        # message = json.loads(message)
         if ("cmd" in message.keys()):
             cmd = message["cmd"]
         else:

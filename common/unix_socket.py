@@ -2,7 +2,7 @@
 import os
 import socket
 import sys
-import time
+import time,uuid
 from common.serial_control import serial_control
 
 # serverAddr = '../uds_socket'  # 套接字存放路径及名称
@@ -37,7 +37,13 @@ class unix_socket():
                     if message:
                         message = str(message, 'UTF-8')
                         print(sys.stderr, 'received "%s"' % message)
-                        ret  = self.ser.send_cmd(message)
+                        cmd_dict = {
+                            "uuid": str(uuid.uuid1()),
+                            "cmd": message,
+                            "from": "camera",
+                        }
+
+                        ret  = self.ser.send_cmd(cmd_dict)
                         # ret  = "0"
                         # ret = bytes(ret,encoding='UTF-8')
                         # conn.sendall(ret)
