@@ -284,6 +284,7 @@ def run(
                 LOGGER.info(f'{s}Done. YOLO:({t3 - t2:.3f}s), StrongSORT:({t5 - t4:.3f}s),fps:{fps}')
 
             else:
+                print("---------------------------------------------------------------No detections-------------------------------------------------------------------")
                 strongsort_list[i].increment_ages()
                 LOGGER.info('No detections,set defalut speed')
                 go_speed.set_default_speed()
