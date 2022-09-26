@@ -127,7 +127,7 @@ class go ():
             screenSize = point["screenSize"]
             center_point = screenSize[0]/2
             diff_point_x = centerx-center_point
-            print("diff_point_x*unit:{},gap+centery*unit:{},centery:{},diff_point_x:{}",diff_point_x*unit,gap+centery*unit,centery,diff_point_x)
+            print("diff_point_x*unit:{},gap+centery*unit:{},centery:{},diff_point_x:{},screenSize:{}".format(diff_point_x*unit,gap+centery*unit,centery,diff_point_x,point["screenSize"]))
             tan = (diff_point_x*unit)/(gap+centery*unit)
             angle = int(numpy.arctan(tan) * 180.0 / 3.1415926)
             global_angle = self.global_angle
