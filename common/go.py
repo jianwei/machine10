@@ -103,6 +103,7 @@ class go ():
         now = float(time.time())
         if(now-self.last_turn_time<1):
             print("1秒内不重复转向")
+            self.last_turn_time = now
             return
         data = self.redis.get(redis_key)
         if (data and len(data)>=2):
