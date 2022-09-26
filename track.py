@@ -260,6 +260,8 @@ def run(
                     add_points(all_points,camera_device)
                     redis_key = get_redis_key(camera_device)
 
+                    print("camera_device----------------------------------------",camera_device,type(camera_device),camera_device==2)
+
                     if (camera_device==0):
                         if (go_speed_thread!="" and go_speed_thread.is_alive()):
                             print("加速线程已经存在，还未执行结束,跳过")
