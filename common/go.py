@@ -1,7 +1,7 @@
 from common.serial_control import serial_control
 import json
 import time
-import uuid
+import uuid,numpy
 from common.unix_socket import unix_socket
 
 class go ():
@@ -15,7 +15,7 @@ class go ():
         self.min_unit_px = 5  # 每秒行驶多少像素
         self.last_check_time = float(time.time())
         self.last_turn_time = float(time.time())
-
+        self.global_angle = 90
         # self.server_address = './socket/uds_socket'
     
 
@@ -104,54 +104,55 @@ class go ():
         if (data and len(data)>=2):
             data = json.loads(data)
             first = data[0]
+            
             total = 0
             for item in first:
                 total += float(item.get("centerx"))
             avg_centerx = total/len(first)
-
-            
-            unit = 0.0386  # 1 pint 0.0386cm
-            gap = 30  # cm 导航摄像头的视野盲区
-            if (point):
-                cmd = ""
-                centerx = point["centerx"]
-                centery = point["centery"]
-                screenSize = point["screenSize"]
-                center_point = screenSize[0]/2
-                diff_point_x = centerx-center_point
-                tan = (diff_point_x*unit)/(gap+centery*unit)
-                angle = int(numpy.arctan(tan) * 180.0 / 3.1415926)
-                global_angle = self.global_angle
-                print("global_angle:",global_angle)
-                cmd_prefix = ""
-                target_angle = 90
-                if (global_angle <= 90):
-                    if (centerx <= center_point):
-                        target_angle = 90-angle
-                        cmd_prefix = "TR" if global_angle < target_angle else "TL"
-                    else:
-                        target_angle = 90+angle
-                        cmd_prefix = "TR"
+            # 15*11
+            # [[314, 427], [375, 427], [314, 479], [375, 479]]
+            unit = 0.2115  # 1 pint 0.2115cm
+            gap = 115  # cm 导航摄像头的视野盲区
+            cmd = ""
+            point = first[0]
+            centerx = avg_centerx
+            centery = point["centery"]
+            screenSize = point["screenSize"]
+            center_point = screenSize[0]/2
+            diff_point_x = centerx-center_point
+            tan = (diff_point_x*unit)/(gap+centery*unit)
+            angle = int(numpy.arctan(tan) * 180.0 / 3.1415926)
+            global_angle = self.global_angle
+            print("global_angle:",global_angle)
+            cmd_prefix = ""
+            target_angle = 90
+            if (global_angle <= 90):
+                if (centerx <= center_point):
+                    target_angle = 90-angle
+                    cmd_prefix = "TR" if global_angle < target_angle else "TL"
                 else:
-                    if (centerx <= center_point):
-                        target_angle = 90-angle
-                        cmd_prefix = "TL"
-                    else:
-                        target_angle = 90+angle
-                        cmd_prefix = "TR" if global_angle < target_angle else "TL"
-                # print("target_angle,global_angle5",target_angle,global_angle)
-                if (target_angle != global_angle):
-                    cmd = cmd_prefix + " " + str(abs(target_angle-global_angle))
-                    global_angle = target_angle
-                    print("send-cmd:", cmd)
+                    target_angle = 90+angle
+                    cmd_prefix = "TR"
+            else:
+                if (centerx <= center_point):
+                    target_angle = 90-angle
+                    cmd_prefix = "TL"
                 else:
-                    print("send-cmd:none")
-                # print("cmd:",cmd)
-                turn_ret = self.send(cmd)
-                print("cmd,turn_ret:", cmd, turn_ret)
-                # if(turn_ret==0 or turn_ret=="0") :
-                # 继续前行
-                self.send(cmd)
+                    target_angle = 90+angle
+                    cmd_prefix = "TR" if global_angle < target_angle else "TL"
+            # print("target_angle,global_angle5",target_angle,global_angle)
+            if (target_angle != global_angle):
+                cmd = cmd_prefix + " " + str(abs(target_angle-global_angle))
+                global_angle = target_angle
+                print("send-cmd:", cmd)
+            else:
+                print("send-cmd:none")
+            # print("cmd:",cmd)
+            # turn_ret = self.send(cmd)
+            # print("cmd,turn_ret:", cmd, turn_ret)
+            # if(turn_ret==0 or turn_ret=="0") :
+            # 继续前行
+            # self.send(cmd)
     
 
 
