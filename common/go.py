@@ -145,6 +145,7 @@ class go ():
                 cmd = cmd_prefix + " " + str(abs(target_angle-global_angle))
                 global_angle = target_angle
                 print("send-cmd:", cmd)
+                self.send_comand(cmd)
             else:
                 print("send-cmd:none")
             # print("cmd:",cmd)
