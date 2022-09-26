@@ -404,4 +404,4 @@ if __name__ == "__main__":
         main(opt)
     except KeyboardInterrupt:
         print("ctrl+c stop")
-        go_obj.stop()
+        go_speed.stop()
