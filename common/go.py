@@ -17,6 +17,9 @@ class go ():
         self.last_turn_time = float(time.time())
 
         # self.server_address = './socket/uds_socket'
+    
+
+    
 
     def send_comand(self, cmd):
         ret = ""
@@ -92,3 +95,65 @@ class go ():
                         self.send_comand("MF "+str(self.default_machine_speed))
                 else:
                     print("1秒内，不做处理")
+    
+    # def 
+
+
+    def turn(self,redis_key):
+        data = self.redis.get(redis_key)
+        if (data and len(data)>=2):
+            data = json.loads(data)
+            first = data[0]
+            total = 0
+            for item in first:
+                total += float(item.get("centerx"))
+            avg_centerx = total/len(first)
+
+            
+            unit = 0.0386  # 1 pint 0.0386cm
+            gap = 30  # cm 导航摄像头的视野盲区
+            if (point):
+                cmd = ""
+                centerx = point["centerx"]
+                centery = point["centery"]
+                screenSize = point["screenSize"]
+                center_point = screenSize[0]/2
+                diff_point_x = centerx-center_point
+                tan = (diff_point_x*unit)/(gap+centery*unit)
+                angle = int(numpy.arctan(tan) * 180.0 / 3.1415926)
+                global_angle = self.global_angle
+                print("global_angle:",global_angle)
+                cmd_prefix = ""
+                target_angle = 90
+                if (global_angle <= 90):
+                    if (centerx <= center_point):
+                        target_angle = 90-angle
+                        cmd_prefix = "TR" if global_angle < target_angle else "TL"
+                    else:
+                        target_angle = 90+angle
+                        cmd_prefix = "TR"
+                else:
+                    if (centerx <= center_point):
+                        target_angle = 90-angle
+                        cmd_prefix = "TL"
+                    else:
+                        target_angle = 90+angle
+                        cmd_prefix = "TR" if global_angle < target_angle else "TL"
+                # print("target_angle,global_angle5",target_angle,global_angle)
+                if (target_angle != global_angle):
+                    cmd = cmd_prefix + " " + str(abs(target_angle-global_angle))
+                    global_angle = target_angle
+                    print("send-cmd:", cmd)
+                else:
+                    print("send-cmd:none")
+                # print("cmd:",cmd)
+                turn_ret = self.send(cmd)
+                print("cmd,turn_ret:", cmd, turn_ret)
+                # if(turn_ret==0 or turn_ret=="0") :
+                # 继续前行
+                self.send(cmd)
+    
+
+
+
+                

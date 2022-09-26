@@ -26,7 +26,6 @@ class unix_socket():
         # listen
         if sock.listen(5):  # 最多监听5个客户端
             print(sys.stderr, 'socket.listen error')
-
         while True:
             print("--------------------------------------------begin-------------------------------------------------------")
             print(sys.stderr, 'waiting for connecting')

@@ -271,10 +271,10 @@ def run(
                             go_speed_thread.start()
 
                         if (go_turn_thread!="" and go_turn_thread.is_alive()):
-                            print("加速线程已经存在，还未执行结束,跳过")
+                            print("转向线程已经存在，还未执行结束,跳过")
                         else:
-                            print("加速线程不存在，run")
-                            go_turn_thread = threading.Thread(target=go_speed.is_add_speed,args=(redis_key,))
+                            print("转向线程不存在，run")
+                            go_turn_thread = threading.Thread(target=go_speed.turn,args=(redis_key,))
                             go_turn_thread.start()
                     elif (camera_device==2):
                         print("---------------------------------------------------------------work-------------------------------------------------------------------")
