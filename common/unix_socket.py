@@ -31,12 +31,13 @@ class unix_socket():
             conn, clientAddr = sock.accept()  
             try:
                 while True:
-                    message = conn.recv(100)  # 接收100个字节长度的数据
+                    message = conn.recv(100)
                     if message:
                         print(sys.stderr, 'received "%s"' % message)
                         ret  = self.ser.send_cmd(message)
+                        ret  = 0
                         ret = bytes(ret,encoding='UTF-8')
-                        conn.sendall(ret)  # 发送数据
+                        conn.sendall(ret)
                     else:
                         break
             except Exception as e:
@@ -56,12 +57,14 @@ class unix_socket():
             sys.exit(1)
 
         reasult = ""
+        print("send_message:",message)
         if(message):
             # ret  = self.ser.send_cmd(message)
             message = bytes(message,encoding='UTF-8')
             sock.sendall(message)
-            reasult = sock.recv(100)
+            # reasult = sock.recv(1)
+            # print(sys.stderr, 'received "%s"' % reasult)
         return reasult
-            # print(sys.stderr, 'received "%s"' % data)
+           
         
 
