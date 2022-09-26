@@ -94,7 +94,7 @@ class go ():
                         self.current_machine_speed = self.default_machine_speed
                         self.send_comand("MF "+str(self.default_machine_speed))
                 else:
-                    print("1秒内，不做处理")
+                    print("1秒内，不重复加速")
     
     # def 
 
