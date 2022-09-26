@@ -10,10 +10,11 @@ class unix_socket():
     def __init__(self):
         self.ser = serial_control()
         self.server_addr = '../uds_socket'  # 套接字存放路径及名称
+        self.socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)  # unix套接字，tcp通信方式
         
 
     def server(self):
-        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)  # unix套接字，tcp通信方式
+        sock = self.socket
         if sock.fileno() < 0:
             print(sys.stderr, 'socket error')
         if os.path.exists(self.server_addr):
@@ -44,10 +45,9 @@ class unix_socket():
             pass
     
     def send_message(self,message):
-        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        sock = self.socket
         if sock.fileno() < 0:
             print(sys.stderr, 'socket error')
-
         try:
             sock.connect(self.server_addr)
         except socket.error as msg:

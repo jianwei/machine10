@@ -22,6 +22,7 @@ class go ():
         ret = ""
         if (cmd != ""):
             cmd += "."
+            print("cmd {}".format(cmd))
             unix_socket.send_message(cmd)
             # cmd_dict = {
             #     "uuid": str(uuid.uuid1()),
