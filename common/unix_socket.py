@@ -38,9 +38,9 @@ class unix_socket():
                         message = str(message, 'UTF-8')
                         print(sys.stderr, 'received "%s"' % message)
                         ret  = self.ser.send_cmd(message)
-                        ret  = "0"
-                        ret = bytes(ret,encoding='UTF-8')
-                        conn.sendall(ret)
+                        # ret  = "0"
+                        # ret = bytes(ret,encoding='UTF-8')
+                        # conn.sendall(ret)
                     else:
                         break
             except Exception as e:
