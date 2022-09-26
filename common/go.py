@@ -96,7 +96,12 @@ class go ():
                 else:
                     print("1秒内，不重复加速")
     
-    # def 
+    def get_target_x (self,frame):
+        total = 0
+        for item in frame:
+            total += float(item.get("centerx"))
+        avg_centerx = total/len(frame)
+        return avg_centerx
 
 
     def turn(self,redis_key):
@@ -110,11 +115,11 @@ class go ():
         if (data and len(data)>=2):
             data = json.loads(data)
             first = data[0]
-            
-            total = 0
-            for item in first:
-                total += float(item.get("centerx"))
-            avg_centerx = total/len(first)
+            avg_centerx = self.get_target_x(first)
+            # total = 0
+            # for item in first:
+            #     total += float(item.get("centerx"))
+            # avg_centerx = total/len(first)
             # 15*11
             # [[314, 427], [375, 427], [314, 479], [375, 479]]
             unit = 0.2115  # 1 pint 0.2115cm
