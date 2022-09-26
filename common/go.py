@@ -147,6 +147,7 @@ class go ():
                     target_angle = 90+angle
                     cmd_prefix = "TR" if global_angle < target_angle else "TL"
             # print("target_angle,global_angle5",target_angle,global_angle)
+            print("target_angle:{},global_angle:{}".format(target_angle,global_angle))
             if (target_angle != global_angle):
                 cmd = cmd_prefix + " " + str(abs(target_angle-global_angle))
                 self.global_angle = target_angle
