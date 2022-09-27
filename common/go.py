@@ -6,7 +6,7 @@ import functools
 
 
 def cmpy(a, b):
-    return a.get("centery")-b.get("centery")
+    return b.get("centery")-a.get("centery")
 
 class go ():
     def __init__(self, redis):
