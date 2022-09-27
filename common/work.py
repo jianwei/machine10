@@ -18,11 +18,11 @@ class work_space():
         ret = ""
         if (cmd != ""):
             cmd += "."
-            print("cmd {}".format(cmd))
+            print("work.py,cmd {}".format(cmd))
             self.unix_socket = unix_socket()
             self.unix_socket.send_message(cmd)
         else:
-            print("cmd null")
+            print("work.py,cmd null")
         return ret
 
 
@@ -39,7 +39,7 @@ class work_space():
             track_id = first["track_id"]
             key = "done_"+self.uuid+"_"+str(track_id)
             has_done = self.redis.get(key)
-            print("key:{},has_done:{}".format(key,has_done))
+            print("work.py,key:{},has_done:{}".format(key,has_done))
             if (has_done==""):
                 if centery >= 50 and centery <= 250:
                     rot_speed = 60
@@ -61,7 +61,7 @@ class work_space():
                     self.send_cmd("MF " + str(speed))
                     
                 else:
-                    print("vegetable position centery:{}".format(centery)) 
+                    print("work.py,vegetable position centery:{}".format(centery)) 
             else:
-                print("vegetable has done,track_id:{}".format(track_id))
+                print("work.py,vegetable has done,track_id:{}".format(track_id))
         

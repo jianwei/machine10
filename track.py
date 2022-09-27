@@ -286,12 +286,12 @@ def run(
                     elif (camera_device==0 ):
                         print("---------------------------------------------------------------work-------------------------------------------------------------------")
                         if (work_thread!="" and work_thread.is_alive()):
-                            print("工作线程已经存在，还未执行结束,跳过")
+                            print("track.py,工作线程已经存在，还未执行结束,跳过")
                         else:
                             # redis.set("is_working",1)
-                            print("工作线程不存在，run")
+                            print("track.py,工作线程不存在，run")
                             current_speed = int(go_speed.current_machine_speed)
-                            print("current_speed:{}".format(current_speed))
+                            print("track.py,current_speed:{}".format(current_speed))
                             work_thread = threading.Thread(target=work.wheel,args=(redis_key,current_speed))
                             work_thread.start()
 

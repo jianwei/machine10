@@ -67,7 +67,7 @@ class unix_socket():
             sys.exit(1)
 
         reasult = ""
-        print("send_message:",message)
+        print("unix_socket.py,send_message:",message)
         if(message):
             message = bytes(message,encoding='UTF-8')
             sock.sendall(message)
