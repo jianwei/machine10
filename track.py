@@ -253,8 +253,8 @@ def run(
                             label = None if hide_labels else (f'{id} {names[c]}' if hide_conf else \
                                 (f'{id} {conf:.2f}' if hide_class else f'{id} {names[c]} {conf:.2f}'))
                             box_label = annotator.box_label(bboxes, label, color=colors(c, True))
-                            box_label = get_common_data(box_label,names[c],screen_size,id)
-                            print(id,box_label)
+                            box_label = get_common_data(box_label,names[c],screen_size,camera_device,id)
+                            # print(id,box_label)
                             all_points.append(box_label)
 
                             if save_crop:
