@@ -2,6 +2,10 @@
 import json
 import time
 from common.unix_socket import unix_socket
+import functools
+
+def cmpy(a, b):
+    return b.get("centery")-a.get("centery")
 
 class work_space():
     def __init__(self, redis): 
@@ -26,7 +30,9 @@ class work_space():
         vegetable_points = self.redis.get(redis_key)
         if (vegetable_points):
             vegetable_points = json.loads(vegetable_points)
-            first = vegetable_points[0]
+            first_frame = vegetable_points[0]
+            first_frame.sort(key=functools.cmp_to_key(cmpy))
+            first = first_frame[0]
             centery = first["centery"]
             track_id = first["track_id"]
             key = "done_"+str(track_id)
