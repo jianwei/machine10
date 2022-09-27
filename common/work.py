@@ -41,7 +41,7 @@ class work_space():
             has_done = self.redis.get(key)
             print("key:{},has_done:{}".format(key,has_done))
             if (has_done==""):
-                if centery >= 50 and centery <= 150:
+                if centery >= 50 and centery <= 250:
                     rot_speed = 60
                     unit_sleep = 1 / (rot_speed * 50 / 2 / 1000)  # 转1圈所需要的时间
                     # unit_sleep -= 0.04  # 误差
