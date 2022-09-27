@@ -11,7 +11,7 @@ def cmpy(a, b):
 class work_space():
     def __init__(self, redis): 
         self.redis = redis
-        self.uuid = str(uuid.uuid1)
+        self.uuid = str(uuid.uuid1())
         
 
     def send_cmd(self, cmd):
