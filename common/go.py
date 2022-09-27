@@ -134,17 +134,21 @@ class go ():
             if (global_angle <= 90):
                 if (centerx <= center_point):
                     target_angle = 90-angle
-                    cmd_prefix = "TL" if global_angle < target_angle else "TR"
+                    # cmd_prefix = "TL" if global_angle < target_angle else "TR"
+                    cmd_prefix = "TR" if global_angle < target_angle else "TL"
                 else:
                     target_angle = 90+angle
-                    cmd_prefix = "TL"
+                    # cmd_prefix = "TL"
+                    cmd_prefix = "TR"
             else:
                 if (centerx <= center_point):
                     target_angle = 90-angle
-                    cmd_prefix = "TL"
+                    # cmd_prefix = "TL"
+                    cmd_prefix = "TR"
                 else:
                     target_angle = 90+angle
-                    cmd_prefix = "TL" if global_angle < target_angle else "TR"
+                    # cmd_prefix = "TL" if global_angle < target_angle else "TR"
+                    cmd_prefix = "TR" if global_angle < target_angle else "TL"
             # print("target_angle,global_angle5",target_angle,global_angle)
             # print("target_angle:{},global_angle:{}".format(target_angle,global_angle))
             if (target_angle != global_angle):
