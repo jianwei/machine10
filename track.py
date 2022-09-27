@@ -303,7 +303,7 @@ def run(
                 strongsort_list[i].increment_ages()
                 LOGGER.info('No detections,set defalut speed')
                 print("work_thread:",work_thread)
-                if (work_thread!="" and work_thread.is_alive()):
+                if (work_thread=="" or (work_thread !="" and not work_thread.is_alive())):
                     go_speed.set_default_speed()
 
             # Stream results
