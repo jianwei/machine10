@@ -302,7 +302,8 @@ def run(
                 print("---------------------------------------------------------------No detections-------------------------------------------------------------------")
                 strongsort_list[i].increment_ages()
                 LOGGER.info('No detections,set defalut speed')
-                go_speed.set_default_speed()
+                if (work_thread!="" and work_thread.is_alive()):
+                    go_speed.set_default_speed()
 
             # Stream results
             im0 = annotator.result()
