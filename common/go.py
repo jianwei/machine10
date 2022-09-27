@@ -11,18 +11,15 @@ def cmpy(a, b):
 class go ():
     def __init__(self, redis):
         self.redis = redis
-        self.default_machine_speed = 5
-        self.current_machine_speed = 5
-        self.increment = 1     # 速度增量
+        self.default_machine_speed = 10
+        self.current_machine_speed = 10
+        self.increment = 2     # 速度增量
         self.min_unit_px = 5  # 每秒行驶多少像素
         self.last_check_time = float(time.time())
         self.last_turn_time = float(time.time())
         self.global_angle = 90
-        # self.server_address = './socket/uds_socket'
+       
     
-
-    
-
     def send_comand(self, cmd):
         ret = ""
         if (cmd != ""):
