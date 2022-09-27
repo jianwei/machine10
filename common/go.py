@@ -118,8 +118,10 @@ class go ():
             cmd = ""
             point = first[0]
             centerx = avg_centerx
+            
             centery = point["centery"]
             screenSize = point["screenSize"]
+            # center_point = avg_centerx
             center_point = screenSize[0]/2
             diff_point_x = centerx-center_point
             diff_point_y = point["screenSize"][1]-centery
