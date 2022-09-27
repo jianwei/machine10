@@ -57,7 +57,7 @@ class work_space():
                     time.sleep(2)
                     self.send_cmd("STOP 2")
                     self.redis.set(key,1,10*60*60)
-                    # self.send_cmd("MF " + str(speed))
+                    self.send_cmd("MF " + str(speed))
                     
                 else:
                     print("work.py,vegetable position centery:{}".format(centery)) 
