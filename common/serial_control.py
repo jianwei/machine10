@@ -3,7 +3,6 @@
 
 import json
 import re
-# from operator import le
 import serial
 import time
 import termios

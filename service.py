@@ -8,4 +8,4 @@ try:
     s.server()
 except KeyboardInterrupt:
     print("ctrl+c stop")
-    s.send_message("STOP 0")
+    # s.send_message("STOP 0")
