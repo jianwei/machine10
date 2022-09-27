@@ -1,13 +1,15 @@
-from common.serial_control import serial_control
 import json
 import time
-import uuid,numpy
+import numpy
 from common.unix_socket import unix_socket
+import functools
+
+
+def cmpy(a, b):
+    return a.get("centery")-b.get("centery")
 
 class go ():
     def __init__(self, redis):
-        # self.ser = serial_control()
-        
         self.redis = redis
         self.default_machine_speed = 5
         self.current_machine_speed = 5
@@ -23,21 +25,11 @@ class go ():
 
     def send_comand(self, cmd):
         ret = ""
-        
         if (cmd != ""):
             cmd += "."
             print("cmd {}".format(cmd))
             self.unix_socket = unix_socket()
             self.unix_socket.send_message(cmd)
-            # cmd_dict = {
-            #     "uuid": str(uuid.uuid1()),
-            #     "cmd": cmd,
-            #     "from": "camera",
-            # }
-            # print(cmd)
-            # self.ser = serial_control()
-            # ret = self.ser.send_cmd(cmd_dict)
-            # self.ser.close()
         else:
             print("cmd null")
         return ret
@@ -115,6 +107,9 @@ class go ():
         if (data and len(data)>=2):
             data = json.loads(data)
             first = data[0]
+            first.sort(key=functools.cmp_to_key(cmpy))
+            print("first:",first)
+
             avg_centerx = self.get_target_x(first)
             # 15*11
             # [[314, 427], [375, 427], [314, 479], [375, 479]]
@@ -158,14 +153,3 @@ class go ():
                 self.send_comand(cmd)
             else:
                 print("send-cmd:none")
-            # print("cmd:",cmd)
-            # turn_ret = self.send(cmd)
-            # print("cmd,turn_ret:", cmd, turn_ret)
-            # if(turn_ret==0 or turn_ret=="0") :
-            # 继续前行
-            # self.send(cmd)
-    
-
-
-
-                
