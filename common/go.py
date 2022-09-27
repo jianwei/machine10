@@ -38,6 +38,7 @@ class go ():
         self.send_comand("STOP 0")
     
     def set_default_speed(self):
+        print("go.py set_default_speed")
         self.send_comand("MF "+str(self.default_machine_speed))
 
     def turn(self):
