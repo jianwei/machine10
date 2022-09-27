@@ -3,6 +3,7 @@ import json
 import time
 from common.unix_socket import unix_socket
 import functools
+import uuid
 
 def cmpy(a, b):
     return b.get("centery")-a.get("centery")
@@ -10,6 +11,7 @@ def cmpy(a, b):
 class work_space():
     def __init__(self, redis): 
         self.redis = redis
+        self.uuid = str(uuid.uuid1)
         
 
     def send_cmd(self, cmd):
@@ -35,8 +37,9 @@ class work_space():
             first = first_frame[0]
             centery = first["centery"]
             track_id = first["track_id"]
-            key = "done_"+str(track_id)
+            key = "done_"+self.uuid+"_"+str(track_id)
             has_done = self.redis.get(key)
+            print("key:{},has_done:{}".format(key,has_done))
             if (has_done!=""):
                 if centery >= 50 and centery <= 150:
                     rot_speed = 60

@@ -422,4 +422,6 @@ if __name__ == "__main__":
         main(opt)
     except KeyboardInterrupt:
         print("ctrl+c stop")
+        redis.set("navigation_points","")
+        redis.set("vegetable_points","")
         go_speed.stop()
