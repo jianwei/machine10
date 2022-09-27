@@ -268,6 +268,7 @@ def run(
                     # is_working = int(redis.get("is_working")) if redis.get("is_working")!="" else 0
                     if (camera_device == 2 ):
                         if (work_thread=="" or (work_thread !="" and not work_thread.is_alive())):
+                            print("---------------------------------------------------------------go_and_turn-------------------------------------------------------------------")
                             if (go_speed_thread!="" and go_speed_thread.is_alive()):
                                 print("加速线程已经存在，还未执行结束,跳过")
                             else:
