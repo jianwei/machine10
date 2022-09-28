@@ -11,8 +11,8 @@ def cmpy(a, b):
 class go ():
     def __init__(self, redis):
         self.redis = redis
-        self.default_machine_speed = 15
-        self.current_machine_speed = 15
+        self.default_machine_speed = 20
+        self.current_machine_speed = 20
         self.increment = 2     # 速度增量
         self.min_unit_px = 5  # 每秒行驶多少像素
         self.last_check_time = float(time.time())
