@@ -275,7 +275,7 @@ def run(
                                 print("加速线程不存在，run")
                                 go_speed_thread = threading.Thread(target=go_speed.is_add_speed,args=(redis_key,))
                                 go_speed_thread.start()
-                            
+
                             if (go_turn_thread!="" and go_turn_thread.is_alive()):
                                 print("转向线程已经存在，还未执行结束,跳过")
                             else:
@@ -303,7 +303,7 @@ def run(
                 print("---------------------------------------------------------------No detections-------------------------------------------------------------------")
                 strongsort_list[i].increment_ages()
                 LOGGER.info('No detections,set defalut speed')
-                print("work_thread:",work_thread)
+                # print("work_thread:",work_thread)
                 if (work_thread=="" or (work_thread !="" and not work_thread.is_alive())):
                     go_speed.set_current_speed()
 
