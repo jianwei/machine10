@@ -75,7 +75,7 @@ class go ():
                     # print("-------------------------------------------------------------------------------------------------------")
                     # print("last_diff_time:{},difftime:{},diff_px:{},diff_px/diff_time:{}".format(last_diff_time,difftime,diff_px,diff_px/diff_time))
                     # print("-------------------------------------------------------------------------------------------------------")
-                    if (float(time.time()) - self.last_check_time >1) :
+                    if (float(time.time()) - self.last_check_time >0.2) :
                         self.last_check_time  = now 
                         if (abs(diff_px/diff_time) < self.min_unit_px):
                             self.current_machine_speed += self.increment
@@ -85,7 +85,7 @@ class go ():
                             # self.current_machine_speed = self.default_machine_speed
                             self.send_comand("MF "+str(self.current_machine_speed))
                     else:
-                        print("1秒内，不重复加速")
+                        print("0.2秒内，不重复加速")
     
     def get_target_x (self,frame):
         total = 0
