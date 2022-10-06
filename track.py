@@ -265,36 +265,36 @@ def run(
 
                     # print("camera_device----------------------------------------",camera_device,type(camera_device),camera_device==2)
                     # is_working = redis.get("is_working")
-                    is_working = int(redis.get("is_working")) if redis.get("is_working")!="" else 0
-                    if (camera_device == 2 ):
-                        if (is_working==0):
-                            print("---------------------------------------------------------------go_and_turn-------------------------------------------------------------------")
-                            if (go_speed_thread!="" and go_speed_thread.is_alive()):
-                                print("加速线程已经存在，还未执行结束,跳过")
-                            else:
-                                print("加速线程不存在，run")
-                                go_speed_thread = threading.Thread(target=go_speed.is_add_speed,args=(redis_key,))
-                                go_speed_thread.start()
+                    # is_working = int(redis.get("is_working")) if redis.get("is_working")!="" else 0
+                    # if (camera_device == 2 ):
+                    #     if (is_working==0):
+                    #         print("---------------------------------------------------------------go_and_turn-------------------------------------------------------------------")
+                    #         if (go_speed_thread!="" and go_speed_thread.is_alive()):
+                    #             print("加速线程已经存在，还未执行结束,跳过")
+                    #         else:
+                    #             print("加速线程不存在，run")
+                    #             go_speed_thread = threading.Thread(target=go_speed.is_add_speed,args=(redis_key,))
+                    #             go_speed_thread.start()
 
-                            if (go_turn_thread!="" and go_turn_thread.is_alive()):
-                                print("转向线程已经存在，还未执行结束,跳过")
-                            else:
-                                print("转向线程不存在，run")
-                                go_turn_thread = threading.Thread(target=go_speed.turn,args=(redis_key,))
-                                go_turn_thread.start()
-                        else:
-                            print("working,pass")
-                    elif (camera_device==0 ):
-                        print("---------------------------------------------------------------work-------------------------------------------------------------------")
-                        if (work_thread!="" and work_thread.is_alive()):
-                            print("track.py,工作线程已经存在，还未执行结束,跳过")
-                        else:
-                            # redis.set("is_working",1)
-                            print("track.py,工作线程不存在，run")
-                            current_speed = int(go_speed.current_machine_speed)
-                            print("track.py,current_speed:{}".format(current_speed))
-                            work_thread = threading.Thread(target=work.wheel,args=(redis_key,current_speed))
-                            work_thread.start()
+                    #         if (go_turn_thread!="" and go_turn_thread.is_alive()):
+                    #             print("转向线程已经存在，还未执行结束,跳过")
+                    #         else:
+                    #             print("转向线程不存在，run")
+                    #             go_turn_thread = threading.Thread(target=go_speed.turn,args=(redis_key,))
+                    #             go_turn_thread.start()
+                    #     else:
+                    #         print("working,pass")
+                    # elif (camera_device==0 ):
+                    #     print("---------------------------------------------------------------work-------------------------------------------------------------------")
+                    #     if (work_thread!="" and work_thread.is_alive()):
+                    #         print("track.py,工作线程已经存在，还未执行结束,跳过")
+                    #     else:
+                    #         # redis.set("is_working",1)
+                    #         print("track.py,工作线程不存在，run")
+                    #         current_speed = int(go_speed.current_machine_speed)
+                    #         print("track.py,current_speed:{}".format(current_speed))
+                    #         work_thread = threading.Thread(target=work.wheel,args=(redis_key,current_speed))
+                    #         work_thread.start()
 
                 fps = 1/((t3-t2)+(t5-t4))
                 LOGGER.info(f'{s}Done. YOLO:({t3 - t2:.3f}s), StrongSORT:({t5 - t4:.3f}s),fps:{fps}')
