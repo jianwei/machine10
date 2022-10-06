@@ -297,6 +297,7 @@ def run(
                     #         work_thread.start()
 
                 fps = 1/((t3-t2)+(t5-t4))
+               
                 LOGGER.info(f'{s}Done. YOLO:({t3 - t2:.3f}s), StrongSORT:({t5 - t4:.3f}s),fps:{fps}')
 
             else:
@@ -307,11 +308,24 @@ def run(
                 # if (work_thread=="" or (work_thread !="" and not work_thread.is_alive())):
                 #     go_speed.set_current_speed()
 
+            # im0
+            cv2.putText(im0,
+                        "fps:{}".format(fps), 
+                        500,
+                        0,
+                        0.75,
+                        (0, 0, 255),
+                        thickness=2,
+                        lineType=cv2.LINE_AA)
+
             # Stream results
             im0 = annotator.result()
             if show_vid:
                 cv2.imshow(str(p), im0)
                 cv2.waitKey(1)  # 1 millisecond
+
+            
+
 
             # Save results (image with detections)
             if save_vid:
