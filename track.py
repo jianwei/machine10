@@ -296,7 +296,7 @@ def run(
                     #         work_thread = threading.Thread(target=work.wheel,args=(redis_key,current_speed))
                     #         work_thread.start()
 
-                fps = 1/((t3-t2)+(t5-t4))
+                # fps = 1/((t3-t2)+(t5-t4))
                
                 LOGGER.info(f'{s}Done. YOLO:({t3 - t2:.3f}s), StrongSORT:({t5 - t4:.3f}s),fps:{fps}')
 
@@ -309,6 +309,7 @@ def run(
                 #     go_speed.set_current_speed()
 
             # im0
+            fps = 1/((t3-t2)+(t5-t4))
             cv2.putText(im0,
                         "fps:{}".format(fps), 
                         (240,400),
