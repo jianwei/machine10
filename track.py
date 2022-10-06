@@ -296,12 +296,12 @@ def run(
                     #         work_thread = threading.Thread(target=work.wheel,args=(redis_key,current_speed))
                     #         work_thread.start()
 
-                # fps = 1/((t3-t2)+(t5-t4))
-               
+                fps = 1/((t3-t2)+(t5-t4))
                 LOGGER.info(f'{s}Done. YOLO:({t3 - t2:.3f}s), StrongSORT:({t5 - t4:.3f}s),fps:{fps}')
 
             else:
                 print("---------------------------------------------------------------No detections-------------------------------------------------------------------")
+                fps = 1/((t3-t2))
                 strongsort_list[i].increment_ages()
                 LOGGER.info('No detections,set defalut speed')
                 # print("work_thread:",work_thread)
@@ -309,7 +309,6 @@ def run(
                 #     go_speed.set_current_speed()
 
             # im0
-            fps = 1/((t3-t2)+(t5-t4))
             cv2.putText(im0,
                         "fps:{}".format(fps), 
                         (240,400),
@@ -450,4 +449,4 @@ if __name__ == "__main__":
         print("ctrl+c stop")
         redis.set("navigation_points","")
         redis.set("vegetable_points","")
-        go_speed.stop()
+        # go_speed.stop()
