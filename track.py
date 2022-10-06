@@ -309,9 +309,10 @@ def run(
                 #     go_speed.set_current_speed()
 
             # im0
+            fps = round(fps,3)
             cv2.putText(im0,
                         "fps:{}".format(fps), 
-                        (240,400),
+                        (0,0),
                         0,
                         1,
                         (0, 0, 255),
