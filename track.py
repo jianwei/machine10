@@ -312,7 +312,7 @@ def run(
             fps = round(fps,3)
             cv2.putText(im0,
                         "fps:{}".format(fps), 
-                        (0,0),
+                        (0,20),
                         0,
                         1,
                         (0, 0, 255),
