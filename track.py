@@ -311,12 +311,13 @@ def run(
             # im0
             cv2.putText(im0,
                         "fps:{}".format(fps), 
-                        500,
-                        0,
-                        0.75,
+                        (240,400),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        1,
                         (0, 0, 255),
-                        thickness=2,
-                        lineType=cv2.LINE_AA)
+                        2,
+                        cv2.LINE_AA,
+                        True)
 
             # Stream results
             im0 = annotator.result()
