@@ -304,8 +304,8 @@ def run(
                 strongsort_list[i].increment_ages()
                 LOGGER.info('No detections,set defalut speed')
                 # print("work_thread:",work_thread)
-                if (work_thread=="" or (work_thread !="" and not work_thread.is_alive())):
-                    go_speed.set_current_speed()
+                # if (work_thread=="" or (work_thread !="" and not work_thread.is_alive())):
+                #     go_speed.set_current_speed()
 
             # Stream results
             im0 = annotator.result()
