@@ -310,23 +310,8 @@ def run(
 
             # im0
             fps = round(fps,3)
-            cv2.putText(im0,
-                        "fps:{}".format(fps), 
-                        (0,20),
-                        0,
-                        1,
-                        (0, 0, 255),
-                        thickness=2,
-                        lineType=cv2.LINE_AA)
-            
-            # cv2.putText(self.im,
-            #                 label, (p1[0], p1[1] - 2 if outside else p1[1] + h + 2),
-            #                 0,
-            #                 self.lw / 3,
-            #                 txt_color,
-            #                 thickness=tf,
-            #                 lineType=cv2.LINE_AA)
-
+            cv2.putText(im0,"fps:{}".format(fps), (0,20),0,1,(0, 0, 255),thickness=2,lineType=cv2.LINE_AA)
+          
             # Stream results
             im0 = annotator.result()
             if show_vid:
