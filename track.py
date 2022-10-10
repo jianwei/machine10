@@ -263,7 +263,7 @@ def run(
                     add_points(all_points,camera_device)
                     redis_key = get_redis_key(camera_device)
 
-                    print("camera_device----------------------------------------",camera_device,type(camera_device),camera_device==2)
+                    print("camera_device:",camera_device)
                     is_working = redis.get("is_working")
                     is_working = int(redis.get("is_working")) if redis.get("is_working")!="" else 0
                     if (camera_device == 2 ):
