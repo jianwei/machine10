@@ -291,7 +291,8 @@ def run(
                         else:
                             # redis.set("is_working",1)
                             print("track.py,工作线程不存在，run")
-                            current_speed = int(go_speed.current_machine_speed)
+                            # current_speed = int(go_speed.current_machine_speed)
+                            current_speed = redis.get("current_machine_speed")
                             print("track.py,current_speed:{}".format(current_speed))
                             work_thread = threading.Thread(target=work.wheel,args=(redis_key,current_speed))
                             work_thread.start()

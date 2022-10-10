@@ -87,7 +87,9 @@ class go ():
                             new_speed = new_speed if  new_speed <=20 else 20
                             if(new_speed!=self.current_machine_speed):
                                 self.current_machine_speed = new_speed
+                                self.redis.set("current_machine_speed",new_speed)
                                 self.send_comand("MF "+str(self.current_machine_speed))
+
                             # self.current_machine_speed += self.increment
                             # self.current_machine_speed = self.current_machine_speed if  self.current_machine_speed <=20 else 20
                             # self.send_comand("MF "+str(self.current_machine_speed))
