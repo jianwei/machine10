@@ -311,7 +311,7 @@ def run(
 
             # im0
             fps = round(fps,3)
-            cv2.putText(im0,"fps:{}".format(round(fps),2), (0,30),0,1,(0, 0, 255),thickness=2,lineType=cv2.LINE_AA)
+            cv2.putText(im0,"fps:{}".format(round(fps,3), (0,30),0,1,(0, 0, 255),thickness=2,lineType=cv2.LINE_AA)
           
             # Stream results
             im0 = annotator.result()
