@@ -15,7 +15,7 @@ class go ():
     def __init__(self, redis):
         self.redis = redis
         self.default_machine_speed = 12
-        self.current_machine_speed = 20
+        self.current_machine_speed = 0
         self.increment = 2     # 速度增量
         self.min_unit_px = 5  # 每秒行驶多少像素
         self.last_check_time = float(time.time())
@@ -87,6 +87,7 @@ class go ():
                             new_speed = self.current_machine_speed
                             new_speed += self.increment
                             new_speed = new_speed if  new_speed <=20 else 20
+                            print("unit_diffPP--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                             if(new_speed!=self.current_machine_speed):
                                 self.current_machine_speed = new_speed
                                 self.send_comand("MF "+str(self.current_machine_speed))
