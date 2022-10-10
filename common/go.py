@@ -81,13 +81,10 @@ class go ():
                     # print("-------------------------------------------------------------------------------------------------------")
                     if (float(time.time()) - self.last_check_time >0.2) :
                         self.last_check_time  = now 
-                        print("unit_diff:",abs(diff_px/diff_time))
                         if (abs(diff_px/diff_time) < self.min_unit_px):
-                            print("unit_diffPP--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                             new_speed = self.current_machine_speed
                             new_speed += self.increment
                             new_speed = new_speed if  new_speed <=20 else 20
-                            print("unit_diffPP--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                             if(new_speed!=self.current_machine_speed):
                                 self.current_machine_speed = new_speed
                                 self.send_comand("MF "+str(self.current_machine_speed))
