@@ -266,7 +266,7 @@ def run(
                     print("camera_device:",camera_device)
                     is_working = redis.get("is_working")
                     is_working = int(redis.get("is_working")) if redis.get("is_working")!="" else 0
-                    if (camera_device == 2 ):
+                    if (camera_device == 0 ):
                         if (is_working==0):
                             print("---------------------------------------------------------------go_and_turn-------------------------------------------------------------------")
                             if (go_speed_thread!="" and go_speed_thread.is_alive()):
@@ -284,7 +284,7 @@ def run(
                                 go_turn_thread.start()
                         else:
                             print("working,pass")
-                    elif (camera_device==0 ):
+                    elif (camera_device==2 ):
                         print("---------------------------------------------------------------work-------------------------------------------------------------------")
                         if (work_thread!="" and work_thread.is_alive()):
                             print("track.py,工作线程已经存在，还未执行结束,跳过")
